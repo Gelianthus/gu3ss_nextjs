@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  quizzes   Quiz[]
+}
+
+model Quiz {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  imageUrl     String?
+  imageAlt     String?
+  categoryId   String
+  createdAt    DateTime      @default(now())
+  items        Item[]
+  leaderboards Leaderboard[]
+  category     Category      @relation(fields: [categoryId], references: [id])
+}
+
+model Item {
+  id      String   @id @default(cuid())
+  hints   String[]
+  quizId  String
+  answers String[]
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Leaderboard {
+  id        String   @id @default(cuid())
+  username  String
+  score     Int
+  quizId    String
+  createdAt DateTime @default(now())
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+}
