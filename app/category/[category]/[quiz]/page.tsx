@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import GoBackButton from "@/components/GoBackButton";
 import QuizPlayer from "@/components/QuizPlayer";
+import { checkDbStatus } from "@/lib/checkDbStatus";
+import Notice from "@/components/Notice"
 
 interface PageProps {
   params: {
@@ -9,7 +11,6 @@ interface PageProps {
   };
 }
 
-// Utility to shuffle an array
 function shuffleArray<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -20,9 +21,11 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export default async function Page({ params }: PageProps) {
+  const db = await checkDbStatus();
+  if (!db.ok) {
+      return <Notice />
+  }
   const { category, quiz } = await params;
-
-  // Fetch quiz and all items
   const quizData = await prisma.quiz.findFirst({
     where: {
       id: quiz,
@@ -35,6 +38,8 @@ export default async function Page({ params }: PageProps) {
     },
   });
 
+
+
   if (!quizData) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center">
@@ -43,12 +48,12 @@ export default async function Page({ params }: PageProps) {
     );
   }
 
-  // Shuffle items and take 10
   const randomItems = shuffleArray(quizData.items).slice(0, 10);
+
 
   return (
     <div className="min-h-screen bg-gray-950 text-white px-6 py-12">
-      {/* Header */}
+
       <div className="flex flex-col items-center mb-8">
         <div className="self-start mb-4">
           <GoBackButton />
@@ -61,9 +66,8 @@ export default async function Page({ params }: PageProps) {
         )}
       </div>
 
-      {/* Quiz Player */}
       <div className="flex flex-col gap-6 max-w-3xl mx-auto">
-        <QuizPlayer items={randomItems} />
+        <QuizPlayer items={randomItems} category={category} />
       </div>
     </div>
   );

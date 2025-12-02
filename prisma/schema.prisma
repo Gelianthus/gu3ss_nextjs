@@ -38,6 +38,7 @@ model Leaderboard {
   id        String   @id @default(cuid())
   username  String
   score     Int
+  timeTaken Int
   quizId    String
   createdAt DateTime @default(now())
   quiz      Quiz     @relation(fields: [quizId], references: [id])
