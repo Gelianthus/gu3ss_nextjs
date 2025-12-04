@@ -20,7 +20,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function QuizPage({ params }: PageProps) {
   const db = await checkDbStatus();
   if (!db.ok) {
       return <Notice />
@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
 
       <div className="flex flex-col items-center mb-8">
         <div className="self-start mb-4">
-          <GoBackButton />
+          <GoBackButton to={`/category/${category.toLocaleLowerCase()}`} />
         </div>
         <h1 className="text-4xl font-bold text-green-400 text-center">
           {quizData.title}

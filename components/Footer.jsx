@@ -7,10 +7,7 @@ export default function Footer() {
         <div>
           <h2 className="text-xl font-semibold text-white mb-2">About This Project</h2>
           <p className="text-gray-400 leading-relaxed">
-            This app is a community-driven quiz experience designed for fun and learning. 
-            Each quiz challenges players using hints, scoring mechanics, and curated topics. 
-            The goal is to provide an enjoyable way to test knowledge across games, shows, 
-            and other interests.
+           A simple quiz app that is meant to demonstrate Create and Read database operation. 
           </p>
         </div>
 
@@ -51,7 +48,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-gray-500 mt-4">
-          This project is provided for educational and personal use. 
+          This project is provided for entertainment and personal use. 
           All trademarks, game titles, and references belong to their respective owners.
         </p>
       </div>
