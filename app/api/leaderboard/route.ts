@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma"; 
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +13,29 @@ export async function POST(req: Request) {
       );
     }
 
+    const recentEntry = await prisma.leaderboard.findFirst({
+      where: {
+        username,
+        score,
+        timeTaken,
+        quizId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    if (recentEntry) {
+
+      const timeSince = Date.now() - new Date(recentEntry.createdAt).getTime();
+      if (timeSince < 4000) {
+        return NextResponse.json(
+          { error: "Duplicate submission detected." },
+          { status: 429 }
+        );
+      }
+    }
+
     const entry = await prisma.leaderboard.create({
       data: {
         username,
@@ -21,7 +44,7 @@ export async function POST(req: Request) {
         quizId,
       },
       include: {
-        quiz: true, 
+        quiz: true,
       },
     });
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import LeaderboardButton from "./LeaderboardButton";
 
 interface Item {
   id: string;
@@ -34,24 +35,26 @@ export default function QuizCompletion({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-    if (!username.trim()) return;
+  if (isSubmitting) return; 
+  if (!username.trim()) return;
 
-    setIsSubmitting(true);
+  setIsSubmitting(true);
+  
+  await fetch("/api/leaderboard", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username,
+      score,
+      timeTaken,
+      quizId,
+    }),
+  });
 
-    await fetch("/api/leaderboard", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        score,
-        timeTaken,
-        quizId,
-      }),
-    });
+  alert("Result submitted!");
+  router.push(`/category/${category}`);
+};
 
-    alert("Result submitted!");
-     router.push(`/category/${category}`);
-  };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-gray-900 rounded-xl text-white flex flex-col gap-4">
@@ -78,6 +81,7 @@ export default function QuizCompletion({
           >
             Submit Result
           </button>
+          <LeaderboardButton quizId={quizId} />
         </div>
       )}
 
@@ -92,12 +96,16 @@ export default function QuizCompletion({
             onChange={(e) => setUsername(e.target.value)}
           />
 
-          <button
-            className="mt-2 w-full bg-gray-700 p-2 rounded hover:bg-green-500 cursor-pointer"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+         <button
+  className={`mt-2 w-full p-2 rounded cursor-pointer ${
+    isSubmitting ? "bg-gray-600 cursor-not-allowed" : "bg-gray-700 hover:bg-green-500"
+  }`}
+  onClick={handleSubmit}
+  disabled={isSubmitting}
+>
+  {isSubmitting ? "Submitting..." : "Submit"}
+</button>
+
         </div>
       )}
 

@@ -43,13 +43,13 @@ export default async function CategoryPage({ params }: PageProps) {
 
       <div className="flex flex-col gap-5 max-w-3xl mx-auto">
         {quizzes.map((quiz) => (
-          <div key={quiz.id} className="flex flex-col bg-gray-900/80 border border-gray-800 rounded-xl overflow-hidden">
+          <div key={quiz.id} className="flex flex-col bg-gray-900/80 border  border-gray-800 rounded-xl overflow-hidden">
             <a
               href={`/category/${category}/${quiz.id}`}
-              className="group flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 p-4 sm:p-5 transition-colors text-center sm:text-left"
+              className="flex flex-col sm:flex-row justify-between hover:bg-gray-900 items-center sm:items-start gap-4 p-4 sm:p-5 transition-colors text-center sm:text-left"
             >
               <div className="flex-1">
-                <h2 className="text-xl sm:text-2xl font-semibold underline-offset-4 group-hover:underline group-active:text-green-400">{quiz.title}</h2>
+                <h2 className="text-xl sm:text-2xl font-semibold underline-offset-4">{quiz.title}</h2>
                 {quiz.description && (
                   <p className="text-gray-400 mt-1 text-sm sm:text-base max-w-md mx-auto sm:mx-0">{quiz.description}</p>
                 )}
