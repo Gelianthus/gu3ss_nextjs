@@ -7,10 +7,10 @@ export default function Footer() {
         <div>
           <h2 className="text-xl font-semibold text-white mb-2">About This Project</h2>
           <p className="text-gray-400 leading-relaxed">
-           A simple quiz app that is meant to demonstrate Create and Read database operation. 
+           A simple quiz app that is meant to demonstrate Create and Read database operation with an API throttling. The app runs on a free database which gets paused from time to time, so I implemented an offline version that will serve as a demo. No authentication, may add later.
           </p>
+          <p className="text-gray-400 leading-relaxed mt-2">Created with the assistance of AI {`(ChatGPT)`}, mundane and repetitive tasks were vibe coded.</p>
         </div>
-
    
         <div>
           <h3 className="text-lg font-semibold text-white mb-3">Built With</h3>

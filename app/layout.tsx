@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { checkDbStatus } from "@/lib/checkDbStatus";
-import Notice from "@/components/Notice"
 import Footer from "@/components/Footer"
 
 const geistSans = Geist({
@@ -25,15 +23,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>){
-  const db = await checkDbStatus();
   
   return (
     <html lang="en">
       <body>
-        {!db.ok && (
-  <Notice />
-)}
-        {db.ok && children}
+
+        { children}
         <Footer></Footer>
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import LeaderboardButton from "./LeaderboardButton";
+import { usePathname } from "next/navigation";
 
 interface Item {
   id: string;
@@ -34,11 +35,15 @@ export default function QuizCompletion({
   const [username, setUsername] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const pathname = usePathname();
+  const isOffline = pathname === "/offline-quiz" ? true : false;
+
   const handleSubmit = async () => {
   if (isSubmitting) return; 
   if (!username.trim()) return;
 
   setIsSubmitting(true);
+  
   
   await fetch("/api/leaderboard", {
     method: "POST",
@@ -76,12 +81,14 @@ export default function QuizCompletion({
           </button>
 
           <button
-            className="px-4 py-2 bg-gray-700 rounded hover:bg-green-500 cursor-pointer"
+            className={`px-4 py-2 bg-gray-700 rounded hover:bg-green-500 cursor-pointer disabled:opacity-50
+    disabled:cursor-not-allowed disabled:bg-gray-700`}
             onClick={() => setShowSubmit(true)}
+            disabled={isOffline}
           >
             Submit Result
           </button>
-          <LeaderboardButton quizId={quizId} />
+          {isOffline ? <></> :  <LeaderboardButton quizId={quizId} />}
         </div>
       )}
 

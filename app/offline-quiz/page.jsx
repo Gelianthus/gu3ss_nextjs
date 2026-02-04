@@ -1,8 +1,8 @@
 "use client";
-
 import QuizPlayer from "@/components/QuizPlayer";
 
 export default function OfflineQuizPage() {
+  
   const offlineQuiz = {
     title: "Offline Quiz Challenge",
     description: "Try this quiz while the database is asleep!",
