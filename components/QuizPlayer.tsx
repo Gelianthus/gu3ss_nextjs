@@ -37,6 +37,10 @@ const [timeTaken, setTimeTaken] = useState(0);
   const currentItem = items[currentIndex];
 
   const handleRevealHint = (index: number) => {
+      if (!quizStarted) {
+        setQuizStarted(true);
+        setStartTime(Date.now());
+      }
     const canReveal = index === 0 || revealedHints[index - 1];
     if (!canReveal) return;
 
